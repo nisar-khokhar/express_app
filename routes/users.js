@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+var routes = require("express").Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+routes.get("/create", (req, res) => {
+  res.send("create user api");
 });
 
-module.exports = router;
+/* GET users listing. */
+routes.get("/update", function (req, res) {
+  res.send("update user api");
+});
+
+routes.get("/delete", function (req, res) {
+  res.send("delete user api");
+});
+
+routes.get("/read", function (req, res, next) {
+  res.send("read user api");
+});
+module.exports = routes;
