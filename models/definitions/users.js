@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../bin/DBConnection");
+const { v4: uuid } = require("uuid");
+const { hash } = require("bcryptjs");
 
 class users extends Model {}
 
@@ -26,5 +28,14 @@ users.init(
     sequelize,
   }
 );
+
+users.beforeCreate(async (user) => {
+  user.userId = uuid();
+  user.password = await hash(user.password, 10);
+});
+
+users.afterCreate(async (user) => {
+  delete user.dataValues.password;
+});
 
 module.exports = users;
