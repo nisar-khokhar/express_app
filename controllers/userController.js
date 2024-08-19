@@ -60,14 +60,14 @@ const create_user = async (req, res) => {
     const user = await createUser(req.body);
     if (user.error) {
       return res.send({
-        error: user.error,
+        error: user.error.parent.detail,
       });
     }
     return res.send({
       response: user.response,
     });
   } catch (error) {
-    return res.send({ response: "3", error: error });
+    return res.send({ error: error });
   }
 };
 
@@ -98,7 +98,7 @@ const deleteUser = async (req, res) => {
     }
     return res.send("User does not exist");
   } catch (error) {
-    return res.send({ response: "4", error: error });
+    return res.send({ error: error });
   }
 };
 

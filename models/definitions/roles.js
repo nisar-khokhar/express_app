@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../bin/DBConnection");
+const { v4: uuid } = require("uuid");
 
 class roles extends Model {}
 
