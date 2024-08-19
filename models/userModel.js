@@ -12,6 +12,7 @@ module.exports = {
     } catch (error) {
       console.error(error);
       return {
+        response: "1",
         error: error,
       };
     }
@@ -28,6 +29,7 @@ module.exports = {
     } catch (error) {
       console.error(error);
       return {
+        response: "2",
         error: error,
       };
     }
