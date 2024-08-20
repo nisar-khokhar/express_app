@@ -1,26 +1,26 @@
 const { hash, compare } = require("bcryptjs");
-const { createUser, getAllUsers } = require("../models/userModel");
-// const { getRole } = require("../models/commonModel");
+const {
+  createUser,
+  getAllUsers,
+  getUser,
+  deleteUser,
+} = require("../models/userModel");
+const { getRole } = require("../models/commonModel");
+const responseHandler = require("../responseHandler");
+
 const user = [];
 
 const get_all_users = async (req, res) => {
   try {
     const users = await getAllUsers();
-    if (users.error) {
-      return res.send({
-        error: users.error,
-      });
-    }
-    return res.send({
-      response: users.response,
-    });
+    responseHandler(users, res);
   } catch (error) {
     return res.send({ error: error });
   }
 };
 
-const getUser = async (req, res) => {
-  try {
+const get_user = async (req, res) => {
+  /*try {
     const { username, password } = req.query;
 
     for (let i = 0; i < user.length; i++) {
@@ -34,6 +34,14 @@ const getUser = async (req, res) => {
     return res.send("No User exists with such credentials");
   } catch (error) {
     console.log("ERROR----> ", error.message);
+  }*/
+  try {
+    const user = await getUser(req.query);
+    responseHandler(user, res);
+  } catch (error) {
+    return res.send({
+      error: error.message,
+    });
   }
 };
 
@@ -58,31 +66,25 @@ const create_user = async (req, res) => {
     }
     return res.send("User already exists with such username");*/
 
-    // const role = await getRole(req.body);
-    // if (role.error) {
-    //   return res.send({
-    //     error: role.error,
-    //   });
-    // }
-    // // console.log(role.response.dataValues);
-    // delete req.body.role;
-    // req.body.roleId = role.response.dataValues.roleId;
-    const user = await createUser(req.body);
-    if (user.error) {
+    const role = await getRole(req.body);
+    if (role.error) {
       return res.send({
-        error: user.error.parent.detail,
+        error: role.error,
       });
     }
-    return res.send({
-      response: user.response,
-    });
+    // console.log(role.response.dataValues);
+    delete req.body.role;
+    req.body.roleId = role.response.dataValues.roleId;
+
+    const user = await createUser(req.body);
+    responseHandler(user, res);
   } catch (error) {
     return res.send({ error: error });
   }
 };
 
-const deleteUser = async (req, res) => {
-  try {
+const delete_user = async (req, res) => {
+  /*try {
     const { username, password } = req.query;
     let isValid = false;
 
@@ -109,6 +111,14 @@ const deleteUser = async (req, res) => {
     return res.send("User does not exist");
   } catch (error) {
     return res.send({ error: error });
+  }*/
+  try {
+    const user = await deleteUser(req.query);
+    responseHandler(user, res);
+  } catch (error) {
+    return res.send({
+      error: error.message,
+    });
   }
 };
 
@@ -156,4 +166,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, get_all_users, create_user, deleteUser };
+module.exports = { get_user, get_all_users, create_user, delete_user };

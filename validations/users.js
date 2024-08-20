@@ -4,7 +4,7 @@ module.exports = {
   createUserSchema: async (req, res, next) => {
     const createUser = Joi.object({
       // role: Joi.valid("Instructor", "Admin", "Trainee").required(),
-      roleId: Joi.string().required(),
+      role: Joi.valid("Instructor", "Admin", "Trainee").required(),
       username: Joi.string()
         .pattern(new RegExp("^[a-zA-Z0-9_]{3,34}$"))
         .required(),
@@ -25,7 +25,7 @@ module.exports = {
     }
   },
 
-  deleteUserSchema: async (req, res, next) => {
+  /*deleteUserSchema: async (req, res, next) => {
     const deleteUser = Joi.object({
       username: Joi.string()
         .pattern(new RegExp("^[a-zA-Z0-9_]{3,34}$"))
@@ -45,9 +45,9 @@ module.exports = {
         error: error.message,
       });
     }
-  },
+  },*/
 
-  getUserSchema: async (req, res, next) => {
+  userSchema: async (req, res, next) => {
     const getUser = Joi.object({
       username: Joi.string()
         .pattern(new RegExp("^[a-zA-Z0-9_]{3,34}$"))
