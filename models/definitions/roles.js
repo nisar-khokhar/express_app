@@ -24,8 +24,4 @@ roles.init(
   }
 );
 
-roles.beforeCreate(async (role) => {
-  role.roleId = uuid();
-});
-
 module.exports = roles;

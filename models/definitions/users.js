@@ -23,7 +23,8 @@ users.init(
     },
     roleId: {
       type: DataTypes.STRING(60),
-      // allowNull: false,
+      allowNull: false,
+      unique: false,
       references: {
         model: roles,
         key: "roleId",

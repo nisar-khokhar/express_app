@@ -1,5 +1,6 @@
 const { hash, compare } = require("bcryptjs");
 const { createUser, getAllUsers } = require("../models/userModel");
+// const { getRole } = require("../models/commonModel");
 const user = [];
 
 const get_all_users = async (req, res) => {
@@ -57,6 +58,15 @@ const create_user = async (req, res) => {
     }
     return res.send("User already exists with such username");*/
 
+    // const role = await getRole(req.body);
+    // if (role.error) {
+    //   return res.send({
+    //     error: role.error,
+    //   });
+    // }
+    // // console.log(role.response.dataValues);
+    // delete req.body.role;
+    // req.body.roleId = role.response.dataValues.roleId;
     const user = await createUser(req.body);
     if (user.error) {
       return res.send({
