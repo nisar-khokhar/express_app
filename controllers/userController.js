@@ -4,6 +4,7 @@ const {
   getAllUsers,
   getUser,
   deleteUser,
+  updateUser,
 } = require("../models/userModel");
 const { getRole } = require("../models/commonModel");
 const responseHandler = require("../responseHandler");
@@ -12,7 +13,8 @@ const user = [];
 
 const get_all_users = async (req, res) => {
   try {
-    const users = await getAllUsers();
+    req.query.offset = (req.query.pageNo - 1) * req.query.limit;
+    const users = await getAllUsers(req.query);
     responseHandler(users, res);
   } catch (error) {
     return res.send({ error: error });
@@ -122,7 +124,18 @@ const delete_user = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+const update_user = async (req, res) => {
+  try {
+    const user = await updateUser(req.body);
+    responseHandler(user, res);
+  } catch (error) {
+    return res.send({
+      error: error.message,
+    });
+  }
+};
+
+/*const updateUser = async (req, res) => {
   try {
     const { username, password, newUsername, newPassword } = req.body;
     let userUpdated = false;
@@ -164,6 +177,24 @@ const updateUser = async (req, res) => {
       error: error.message,
     });
   }
+};*/
+
+const get_profile = async (req, res) => {
+  try {
+    const userProfile = await profile(req.user);
+    responseHandler(userProfile, res);
+  } catch (error) {
+    return res.send({
+      error: error.message,
+    });
+  }
 };
 
-module.exports = { get_user, get_all_users, create_user, delete_user };
+module.exports = {
+  get_user,
+  get_all_users,
+  create_user,
+  delete_user,
+  update_user,
+  get_profile,
+};
